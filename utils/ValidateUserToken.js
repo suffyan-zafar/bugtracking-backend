@@ -8,7 +8,7 @@ class ValidateUserToken {
       bcrypt.compare(plainPassword, dbObj[0].password).then((result)=>{
         if (result) {
           const token = jwt.sign({
-            role_id:dbObj[0].role_id,
+            role_name:dbObj[0].role_name,
             name: dbObj[0].name,
             email: dbObj[0].email,
             user_id: dbObj[0].user_id

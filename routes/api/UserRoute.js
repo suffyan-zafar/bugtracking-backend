@@ -3,7 +3,7 @@ const UserController=require("../../controller/UserController")
 const router=express.Router();
 const CheckAuth=require('../../middleware/CheckAuth')
 
-router.get("/signup", UserController.signup);
-router.get('/login',CheckAuth, UserController.login);
+router.post("/signup", UserController.signup);
+router.get('/login/:email/:password', UserController.login);
 
 module.exports=router;

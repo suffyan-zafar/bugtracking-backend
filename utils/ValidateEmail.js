@@ -7,12 +7,12 @@ class ValidateEmail{
         db.query(sql_query, (err,ress)=>{ 
           if(ress.length==1){
             reject({
-              status:404,
-              message:"email already exists!"
+              status:500,
+              message:"email alreadyy exists!"
             });
           }
           resolve({
-            status:200
+            message:"creating new user!!"
           })
       })
       })

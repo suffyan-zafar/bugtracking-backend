@@ -3,8 +3,10 @@ const ValidateUserToken=require("../utils/ValidateUserToken");
 const EmailValidation=require('../utils/ValidateEmail');
 class UserService{
   static async signup(body){
+    
     const response= await EmailValidation.emailValidation(body);
-    if(response.status==404){
+    console.log(response, "response");
+    if(response.status==500){
       return response;
     }
     else{

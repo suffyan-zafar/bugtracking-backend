@@ -2,10 +2,9 @@ const bcrypt = require('bcrypt');
 const db = require("../database");
 class UserManager {
   static signup(body) {
+    console.log(body,"Sad");
     return new Promise((resolve, reject) => {
       const { name, email, password, user_type } = body;
-      const sql_query = `INSERT INTO bugtracking.users
-      (name,email,password,role_id) VALUES ('${name}', '${email}', '${hash}', '${2}');`
       bcrypt.hash(password, 10, (error, hash) => {
         if (error) {
           reject( {
@@ -13,12 +12,17 @@ class UserManager {
             message: "Password not converted to hash!!"
           })
         };
+        const sql_query = `INSERT INTO bugtracking.users
+        (name,email,password,role_name) VALUES ('${name}', '${email}', '${hash}', '${user_type}');`
         console.log(sql_query);
         db.query(sql_query, (err, res) => {
           if (err) {
             reject(err);
           }
-          resolve(res);
+          resolve({
+            status:201,
+            message:"User created Successfully!!"
+          });
         });
       })
     })
@@ -27,6 +31,7 @@ class UserManager {
  // LOgin Function
 
  static login(body){
+  console.log(body, "bady");
   const {email}=body;
   const sql_query=`select * from bugtracking.users where email='${email}'`;
   return new Promise((resolve,reject)=>{
