@@ -22,6 +22,15 @@ class UserService{
     return ValidateUserToken.tokenValidation(body.password, result)
    
   }
+
+  static  getDeveloper(){
+      return UserManager.getDeveloper(); 
+  }
+
+
+  static  getQa(){
+    return UserManager.getQa(); 
+}
 }
 
 module.exports=UserService;

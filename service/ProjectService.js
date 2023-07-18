@@ -2,14 +2,14 @@ const ProjectManager = require('../manager/ProjectManager')
 const ValidateProjectTitle = require("../utils/ValidateProjectTitle");
 class ProjectService {
   static async addProject(body) {
-    console.log("sdsa");
     const response = await ValidateProjectTitle.titleValidation(body);
-    if (response.status == 404) {
+    console.log(response);
+    if (response.status == 500) {
       return response;
     }
     else {
       console.log(response, "asd");
-      return await ProjectManager.addProject(body);
+      return  ProjectManager.addProject(body);
     }
   }
 
@@ -22,13 +22,17 @@ class ProjectService {
   }
 
   static assignProject(body){
-    console.log(body,"body");
     return ProjectManager.assignProject(body);
   }
   
   
-  static displayTotalProject() {
-    ProjectManager.displayTotalProject();
+  static displayTotalProject(body) {
+   return ProjectManager.displayTotalProject(body);
+  }
+
+
+  static getProject(body) {
+    return ProjectManager.getProject(body);
   }
 }
 

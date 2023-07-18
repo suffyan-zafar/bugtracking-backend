@@ -20,9 +20,28 @@ class UserController {
     }catch(error){
       res.send(error);
     }
-   
-
   }
+
+  static async getDeveloper(req, res) {
+    try {
+     const response= await UserService.getDeveloper();
+
+     res.json(response);
+
+    } catch (error) {
+      res.send(error);
+    }
+  };
+
+  static async getQa(req, res) {
+    try {
+     const response= await UserService.getQa();
+     res.json(response);
+
+    } catch (error) {
+      res.send(error);
+    }
+  };
 }
 
 module.exports = UserController;

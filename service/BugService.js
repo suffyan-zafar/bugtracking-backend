@@ -4,6 +4,11 @@ class BugService{
     BugManager.insertBug();
     console.log("Bug Service");
   }
+  
+
+  static getUserProject(body){
+    return BugManager.getUserProject(body);
+  }
 }
 
 module.exports=BugService;

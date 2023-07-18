@@ -49,6 +49,33 @@ class UserManager {
       })
   }) 
  }
+
+ // get Developer
+
+
+ static  getDeveloper(){
+  const sql_query=`select user_id,name from bugtracking.users where role_name='developer'`;
+  return new Promise((resolve,reject)=>{
+      db.query(sql_query, (err,res)=>{
+        if(err){
+          reject(err);
+        }
+        resolve(res);
+      })
+  })
+}
+
+static  getQa(){
+  const sql_query=`select user_id,name from bugtracking.users where role_name='qa'`;
+  return new Promise((resolve,reject)=>{
+      db.query(sql_query, (err,res)=>{
+        if(err){
+          reject(err);
+        }
+        resolve(res);
+      })
+  })
+}
 }
 
 module.exports = UserManager;
