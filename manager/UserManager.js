@@ -17,7 +17,10 @@ class UserManager {
         console.log(sql_query);
         db.query(sql_query, (err, res) => {
           if (err) {
-            reject(err);
+            reject({
+              status: 500,
+              message: "email already exist!!"
+            });
           }
           resolve({
             status:201,

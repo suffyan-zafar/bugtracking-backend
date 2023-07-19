@@ -8,7 +8,10 @@ class ProjectManager {
       (project_title,manager_id) VALUES ('${title}', ${manager_id}) `;
       db.query(sql_query, (err, res) => {
         if (err) {
-          reject(err)
+          reject({
+            status: 500,
+            message: "Title already exist!!"
+          })
         }
         resolve({
           status:201,

@@ -4,7 +4,7 @@ class ProjectController{
   static async addProject(req,res){
     try{
       const response= await ProjectService.addProject(req.body);
-      console.log(response,"response in controler");
+
       res.json(response);
     }catch(error){
       res.send(error);
