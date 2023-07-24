@@ -6,9 +6,8 @@ const router=express.Router();
 router.post('/addproject', ProjectController.addProject);
 
 
-router.delete('/deleteproject', ProjectController.deleteProject);
+router.delete('/deleteproject/:project_id', ProjectController.deleteProject);
 
-router.put('/updateproject', ProjectController.updateProject);
 
 router.post('/assignproject', ProjectController.assignProject);
 

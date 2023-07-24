@@ -1,26 +1,28 @@
-const UserManager=require("../manager/UserManager");
-const ValidateUserToken=require("../utils/ValidateUserToken");
-const EmailValidation=require('../utils/ValidateEmail');
-class UserService{
-  static  signup(body){
-      return  UserManager.signup(body);
-    // return UserManager.signup(body);
+const UserManager = require("../manager/UserManager");
+const ValidateUserToken = require("../utils/ValidateUserToken");
+const AuthUtill = require("../utils/AuthUtill");
+class UserService {
+  static signup(body) {
+    AuthUtill.validateSignupFields(body);
+    return UserManager.signup(body);
   }
 
-  static async login(body){
+  static async login(body) {
+    AuthUtill.validateLoginFields(body);
     const result = await UserManager.login(body);
-    return ValidateUserToken.tokenValidation(body.password, result)
-   
+    const res = await ValidateUserToken.tokenValidation(body.password, result);
+    return res;
+
   }
 
-  static  getDeveloper(){
-      return UserManager.getDeveloper(); 
+  static getDeveloper(body) {
+    return UserManager.getDeveloper(body);
   }
 
 
-  static  getQa(){
-    return UserManager.getQa(); 
-}
+  static getQa(body) {
+    return UserManager.getQa(body);
+  }
 }
 
-module.exports=UserService;
+module.exports = UserService;
