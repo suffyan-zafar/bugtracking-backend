@@ -1,27 +1,27 @@
 class AuthUtill {
-  static validateSignupFields(body) {
-    if (!body.name) {
+  static validateSignupFields(name, email, password, user_type ) {
+    if (!name) {
       throw {
         status: 400,
         message: "Invalid Parameters"
       }
     }
 
-    if (!body.email) {
+    if (!email) {
       throw {
         status: 400,
         message: "Invalid Parameters"
       }
     }
 
-    if (!body.password) {
+    if (!password) {
       throw {
         status: 400,
         message: "Invalid Parameters"
       }
     }
 
-    if (!body.user_type) {
+    if (!user_type) {
       throw {
         status: 400,
         message: "Invalid Parameters"
@@ -29,15 +29,15 @@ class AuthUtill {
     }
   }
 
-  static validateLoginFields(body) {
-    if (!body.email) {
+  static validateLoginFields(email,password ) {
+    if (!email) {
       throw {
         status: 400,
         message: "Invalid Parameters"
       }
     }
 
-    if (!body.password) {
+    if (!password) {
       throw {
         status: 400,
         message: "Invalid Parameters"

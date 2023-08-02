@@ -7,32 +7,41 @@ class BugService {
   }
 
 
-  static getUserProject(body) {
-    return BugManager.getUserProject(body);
+  static getUserProject(user_id) {
+    return BugManager.getUserProject(user_id);
   }
 
 
-  static getProjectDeveloper(body) {
-    return BugManager.getProjectDeveloper(body);
+  static getProjectDeveloper(project_id) {
+    return BugManager.getProjectDeveloper(project_id);
   }
 
 
-  static displayBug(body) {
-    return BugManager.displayBug(body);
+  static displayBug(user_id,project_id) {
+    return BugManager.displayBug(user_id,project_id);
   }
 
-  static displayProjectWithBug(body) {
-    return BugManager.displayProjectWithBug(body);
+  static displayProjectWithBug(project_id) {
+    return BugManager.displayProjectWithBug(project_id);
   }
 
-  static updateBugStatus(body) {
-    return BugManager.updateBugStatus(body);
+  static updateBugStatus(status, bug_id, type) {
+    return BugManager.updateBugStatus(status, bug_id, type);
   }
 
   static deleteBug(body) {
     return BugManager.deleteBug(body);
   }
 
+  static assignProjectDeveloper( project_id, bug_id, title, developer_id ) {
+    return BugManager.assignProjectDeveloper( project_id, bug_id, title, developer_id );
+  }
+
+
+  static checkBug(developer_id,bug_id) {
+    return BugManager.checkBug(developer_id,bug_id);
+  }
+  
 
 }
 

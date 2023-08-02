@@ -1,11 +1,8 @@
 const db = require('../database');
 const { addProject, deleteProject, assignProject,
-  displayProject, getProjectAgainstManager } = require('../utils/ProjectSqlQuery');
+  displayProject, getProjectAgainstManager,getProjectAgainstDeveloper,getProjectAgainstQa } = require('../utils/ProjectSqlQuery');
 class ProjectManager {
-  static addProject(body) {
-    const { title, manager_id } = body;
-    console.log(title);
-
+  static addProject(title, manager_id) {
     return new Promise((resolve, reject) => {
       const sqlQuery = addProject;
       db.query(sqlQuery, [title, manager_id], (err, res) => {
@@ -24,14 +21,15 @@ class ProjectManager {
     });
   }
 
-  static deleteProject(body) {
+  static deleteProject(project_id) {
     return new Promise((resolve, reject) => {
       const sqlQuery = deleteProject;
       console.log(sqlQuery, "query");
-      db.query(sqlQuery, [body.project_id], (err, res) => {
+      db.query(sqlQuery, [parseInt(project_id)], (err, res) => {
         if (err) {
+          console.log(err,"err from mysql");
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           })
         }
@@ -45,13 +43,13 @@ class ProjectManager {
 
 
 
-  static assignProject(body) {
-    const { project_id, developer_id, qa_id } = body;
+  static assignProject(project_id, developer_id, qa_id) {
     const sqlQuery = assignProject;
-
+    console.log(developer_id);
+    console.log(qa_id);
     const values = [];
-    const newArr = developer_id.split(",");
-    const newArr2 = qa_id.split(",");
+    const newArr = developer_id;
+    const newArr2 = qa_id;
 
     return new Promise((resolve, reject) => {
       if (newArr.length > newArr2.length) {
@@ -91,10 +89,10 @@ class ProjectManager {
 
   }
 
-  static displayTotalProject(body) {
+  static displayTotalProject(user_id,project_id) {
     const sqlQuery = displayProject;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [parseInt(body.user_id)], (err, res) => {
+      db.query(sqlQuery, [parseInt(user_id), project_id], (err, res) => {
         if (err) {
           reject({
             status: err.code,
@@ -109,10 +107,11 @@ class ProjectManager {
     })
   }
 
-  static getProject(body) {
+  static displayProjectAgainstManager(user_id) {
+    console.log(user_id, "id");
     const sqlQuery = getProjectAgainstManager;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [body.user_id], (err, res) => {
+      db.query(sqlQuery, [parseInt(user_id)], (err, res) => {
         if (err) {
           reject({
             status: err.code,
@@ -126,6 +125,70 @@ class ProjectManager {
       })
     })
   }
+  
+
+  static getProject(user_id) {
+    const sqlQuery = getProjectAgainstManager;
+    return new Promise((resolve, reject) => {
+      db.query(sqlQuery, [user_id], (err, res) => {
+        if (err) {
+          reject({
+            status: err.code,
+            message: err.message
+          });
+        }
+        resolve({
+          status: 200,
+          res: res
+        });
+      })
+    })
+  }
+
+
+  static getProjectAgainstDeveloper(user_id) {
+    const sqlQuery = getProjectAgainstDeveloper;
+    return new Promise((resolve, reject) => {
+      db.query(sqlQuery, [user_id], (err, res) => {
+        console.log(sqlQuery,"query");
+        console.log(res,"res");
+        if (err) {
+          reject({
+            status: err.code,
+            message: err.message
+          });
+        }
+        resolve({
+          status: 200,
+          res: res
+        });
+      })
+    })
+  }
+
+  static getProjectAgainstQa(user_id) {
+    const sqlQuery = getProjectAgainstQa;
+    return new Promise((resolve, reject) => {
+      db.query(sqlQuery, [user_id], (err, res) => {
+        console.log(sqlQuery,"query");
+        console.log(res,"res");
+        if (err) {
+          reject({
+            status: err.code,
+            message: err.message
+          });
+        }
+        resolve({
+          status: 200,
+          res: res
+        });
+      })
+    })
+  }
+
+
+  
+  
 };
 
 module.exports = ProjectManager;

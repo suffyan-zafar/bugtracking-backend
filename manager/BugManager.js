@@ -2,7 +2,7 @@ const db = require('../database');
 const fs = require('fs');
 const path = require("path");
 const { displayBug, insertBug, getQaAgainstProject, getDeveloperAgainstProject,
-  displayProjectWithBug, updateBugStatus, deleteBug } = require('../utils/BugSqlQuery');
+  displayProjectWithBug, updateBugStatus, deleteBug,assignProjectDeveloper,checkBug } = require('../utils/BugSqlQuery');
 class BugManager {
   static insertBug(body, pathName) {
     console.log(pathName, "pathName");
@@ -21,9 +21,10 @@ class BugManager {
 
     return new Promise((resolve, reject) => {
       db.query(sqlQuery, [values], (err, res) => {
+        console.log(res,"res");
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -35,13 +36,13 @@ class BugManager {
     })
   }
 
-  static getUserProject(body) {
+  static getUserProject(user_id) {
     const sqlQuery = getQaAgainstProject;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [body.user_id], (err, res) => {
+      db.query(sqlQuery, [user_id], (err, res) => {
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -53,13 +54,15 @@ class BugManager {
     })
   }
 
-  static getProjectDeveloper(body) {
+  static getProjectDeveloper(project_id) {
+    console.log(project_id, "id");
     const sqlQuery = getDeveloperAgainstProject;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [body.project_id], (err, res) => {
+      db.query(sqlQuery, [project_id], (err, res) => {
+        console.log(sqlQuery,"wuery");
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -71,16 +74,14 @@ class BugManager {
     })
   }
 
-  static displayBug(body) {
-    console.log(body, "bady");
+  static displayBug(user_id,project_id) {
     const sqlQuery = displayBug;
-
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [parseInt(body.user_id)], (err, res) => {
+      db.query(sqlQuery, [parseInt(user_id),project_id], (err, res) => {
 
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -94,13 +95,14 @@ class BugManager {
 
   // For developer 
 
-  static displayProjectWithBug(body) {
+  static displayProjectWithBug(project_id) {
+    console.log(project_id);
     const sqlQuery = displayProjectWithBug;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [body.user_id], (err, res) => {
+      db.query(sqlQuery, [project_id], (err, res) => {
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -112,13 +114,13 @@ class BugManager {
     })
   }
 
-  static updateBugStatus(body) {
+  static updateBugStatus(status, bug_id, type) {
     const sqlQuery = updateBugStatus;
     return new Promise((resolve, reject) => {
-      db.query(sqlQuery, [body.status, body.bug_id, body.type], (err, res) => {
+      db.query(sqlQuery, [status, bug_id, type], (err, res) => {
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -132,12 +134,18 @@ class BugManager {
 
   static deleteBug(body) {
     const sqlQuery = deleteBug;
-    fs.unlinkSync(path.join(__dirname, '../images/')+ body.image);
+  
+    const img=body.image;
+    console.log(img,"imae");
+    if(img != "null"){
+      console.log("in iffaaaaaa");
+      fs.unlinkSync(path.join(__dirname, '../images/')+ body.image);
+    }
     return new Promise((resolve, reject) => {
       db.query(sqlQuery, [parseInt(body.bug_id)], (err, res) => {
         if (err) {
           reject({
-            status: err.code,
+            status: err.errno,
             message: err.message
           });
         }
@@ -149,6 +157,49 @@ class BugManager {
     })
   }
 
+
+  static assignProjectDeveloper( project_id, bug_id, title, developer_id ) {
+
+    const sqlQuery = assignProjectDeveloper;
+    return new Promise((resolve, reject) => {
+      db.query(sqlQuery, [developer_id,bug_id,title, project_id ], (err, res) => {
+        if (err) {
+          reject({
+            status: err.errno,
+            message: err.message
+          });
+        }
+        resolve({
+          status: 200,
+          message: "successfull assign developer!!"
+        });
+      })
+    })
+  }
+
+
+  static checkBug(developer_id,bug_id) {
+    const sqlQuery = checkBug;
+    return new Promise((resolve, reject) => {
+      db.query(sqlQuery, [bug_id,developer_id], (err, res) => {
+        console.log(res);
+        if (err) {
+          reject({
+            status: err.errno,
+            message: err.message
+          });
+        }
+        resolve({
+          status: 200,
+          res: res
+        });
+      })
+    })
+  }
+
+
+  
+  
 }
 
 module.exports = BugManager;

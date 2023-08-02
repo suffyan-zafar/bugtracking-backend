@@ -23,7 +23,7 @@ class ValidateUserToken {
     }
     else{
       const err=new Error;
-      err.status=401;
+      err.status=400;
       err.message="Enter correct password"
       throw err;
     }

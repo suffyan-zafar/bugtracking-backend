@@ -1,7 +1,6 @@
 class ProjectUtill{
-
-  static  validateProjectTitle(body){
-    if (!body.title) {
+  static  validateProjectTitle(title){
+    if (!title) {
       throw {
         status: 400,
         message: "Invalid Parameters"
